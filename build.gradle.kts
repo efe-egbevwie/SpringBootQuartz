@@ -36,6 +36,12 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("org.postgresql:postgresql")
+
+
+
 
 }
 

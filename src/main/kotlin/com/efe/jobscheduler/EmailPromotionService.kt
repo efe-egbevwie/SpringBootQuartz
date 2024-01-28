@@ -33,15 +33,18 @@ class EmailPromotionService(
     private fun createAndTriggerEmailJobToRecipient(recipient: Recipient) {
 
         val jobData = JobDataMap().apply {
-            put(RECIPIENT_ID, recipient.userId.toString())
+            put(RECIPIENT_ID_KEY, recipient.userId.toString())
             put(RECIPIENT_NAME_KEY, recipient.name)
             put(RECIPIENT_EMAIL_ADDRESS_KEY, recipient.emailAddress)
+            putAsString(EMAIL_PROMOTION_JOB_ATTEMPTS_COUNT, 1) //1
         }
 
         val job: JobDetail = JobBuilder
             .newJob(EmailPromotionJob::class.java)
             .withIdentity(recipient.userId.toString())
             .usingJobData(jobData)
+            .requestRecovery(true)
+            .storeDurably(true)
             .withDescription("Send promotional email to ${recipient.name}")
             .build()
 
